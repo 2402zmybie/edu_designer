@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        
+    </div>
+    <script src="vue.min.js"></script>
+    <script src="components/Navbar.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                
+            },
+            created() {
+                // created执行时，data 和 methods 都已经被初始化好了！
+                // 如果要调用 methods 中的方法，或者操作 data 中的数据，最早，只能在 created 中操作
+                console.log("页面渲染之前执行.....")
+            },
+            mounted() {
+                // 内存中的模板已经渲染到页面，用户已经可以看见内容
+                console.log("页面渲染之后执行.....")
+            }
+        })
+    </script>
+</body>
+
+</html>
