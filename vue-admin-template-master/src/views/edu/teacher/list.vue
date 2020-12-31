@@ -119,6 +119,10 @@ export default {
         resetData() {
             this.teacherQuery = {}
             this.getList()
+        },
+        //删除讲师
+        removeDataById(id) {
+            alert(id)
         }
     }
     
