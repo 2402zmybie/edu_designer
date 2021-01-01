@@ -44,11 +44,20 @@ export default {
     }
   },
   created() {
-
+      //判断路径中有没有id, 有的话就是修改讲师
+      if(this.$route.params && this.$route.params.id) {
+        const id = this.$route.params.id
+        this.getTeacher(id);
+      }
   },
   methods: {
     saveOrUpdate() {
-       this.addTeacher()
+       //根据teacher是否有id, 判断是添加的页面还是修改的页面
+       if(!this.teacher.id) {
+          this.addTeacher()
+       }else {
+          this.updateTeacher()
+       }
     },
     //添加讲师
     addTeacher() {
@@ -61,6 +70,26 @@ export default {
             //回到列表页面
             this.$router.push({path: '/teacher/table'})
           })
+    },
+    // 查询讲师
+    getTeacher(id) {
+      teacher.getTeacher(id)
+        .then(res => {
+          this.teacher = res.data.teacher
+        })
+    },
+
+    //修改讲师
+    updateTeacher() {
+        teacher.updateTeacher(this.teacher)
+          .then(res => {
+            this.$message({
+              type:'success',
+              message:'修改成功!'
+            });
+            //回到列表页面
+            this.$router.push({path: '/teacher/table'})
+        })
     }
   }
 }
