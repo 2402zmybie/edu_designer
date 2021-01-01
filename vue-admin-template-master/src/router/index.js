@@ -78,6 +78,14 @@ export const constantRouterMap = [
         name: '添加讲师',
         component: () => import('@/views/edu/teacher/save.vue'),
         meta: { title: '添加讲师', icon: 'tree' }
+      },
+      //隐藏路由
+      {
+        path:'edit/:id',
+        name: 'EduTeacherEdit',
+        component: () => import('@/views/edu/teacher/save.vue'),
+        meta: { title: '编辑讲师', noCache:true },
+        hidden: true
       }
     ]
   },

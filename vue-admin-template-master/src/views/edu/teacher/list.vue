@@ -68,8 +68,9 @@
       <el-table-column prop="sort" label="排序" width="60" />
 
       <el-table-column label="操作" width="200" align="center">
+        <!-- 隐藏路由跳转的方式 -->
         <template slot-scope="scope">
-          <router-link :to="'/edu/teacher/edit/'+scope.row.id">
+          <router-link :to="'/teacher/edit/'+ scope.row.id">
             <el-button type="primary" size="mini" icon="el-icon-edit">修改</el-button>
           </router-link>
           <el-button type="danger" size="mini" icon="el-icon-delete" @click="removeDataById(scope.row.id)">删除</el-button>
@@ -112,7 +113,7 @@ export default {
                     console.log(res)
                     this.list = res.data.rows
                     this.total = res.data.total
-                }).catch(err => {
+                }).catch(err => { 
                     console.log(err)
                 })
         },
@@ -122,8 +123,27 @@ export default {
         },
         //删除讲师
         removeDataById(id) {
-            alert(id)
-        }
+          this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+            }).then(() => {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+              teacher.deleteTeacherById(id)
+                .then(res => {
+                  this.getList()
+                }).catch(err => { 
+                      console.log(err)
+              })
+        })
+      }
+        
+
+
+            
     }
     
 }
