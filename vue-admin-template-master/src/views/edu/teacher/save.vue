@@ -44,13 +44,24 @@ export default {
     }
   },
   created() {
+     this.init()
+  },
+  watch: {
+    $route(to,from) {
+      //监听路由变化的方式
+      this.init();
+    }
+  },
+  methods: {
+    init() {
       //判断路径中有没有id, 有的话就是修改讲师
       if(this.$route.params && this.$route.params.id) {
         const id = this.$route.params.id
         this.getTeacher(id);
+      }else {
+        this.teacher = {}
       }
-  },
-  methods: {
+    },
     saveOrUpdate() {
        //根据teacher是否有id, 判断是添加的页面还是修改的页面
        if(!this.teacher.id) {
