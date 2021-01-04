@@ -91,6 +91,73 @@ export const constantRouterMap = [
   },
 
   {
+    path: '/subject',
+    component: Layout,
+    redirect: '/subject/list',
+    name: '课程分类管理',
+    meta: { title: '课程分类管理', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: '课程分类列表',
+        component: () => import('@/views/edu/subject/list.vue'),
+        meta: { title: '讲师列表', icon: 'table' }
+      },
+      {
+        path: 'save',
+        name: '添加课程分类',
+        component: () => import('@/views/edu/subject/save.vue'),
+        meta: { title: '添加课程分类', icon: 'tree' }
+      },
+
+    ]
+  },
+
+  {
+    path: '/course',
+    component: Layout,
+    redirect: '/course/list',
+    name: '课程管理',
+    meta: { title: '课程管理', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: '课程管理列表',
+        component: () => import('@/views/edu/course/list.vue'),
+        meta: { title: '课程管理列表', icon: 'table' }
+      },
+      //添加课程管理的三个页面  做隐藏路由
+      {
+        path: 'info',
+        name: '添加课程管理',
+        component: () => import('@/views/edu/course/info.vue'),
+        meta: { title: '添加课程分类', icon: 'tree' }
+      },
+      {
+        path: 'info/:id',
+        name: 'EduCourseInfoEdit',
+        component: () => import('@/views/edu/course/info'),
+        meta: { title: '编辑课程基本信息', noCache: true },
+        hidden: true
+      },
+      {
+        path: 'chapter/:id',
+        name: 'EduCourseChapterEdit',
+        component: () => import('@/views/edu/course/chapter'),
+        meta: { title: '编辑课程大纲', noCache: true },
+        hidden: true
+      },
+      {
+        path: 'publish/:id',
+        name: 'EduCoursePublishEdit',
+        component: () => import('@/views/edu/course/publish'),
+        meta: { title: '发布课程', noCache: true },
+        hidden: true
+      }
+    ]
+  },
+
+  {
     path: '/form',
     component: Layout,
     children: [
