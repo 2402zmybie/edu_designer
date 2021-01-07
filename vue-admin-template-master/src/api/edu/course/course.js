@@ -46,5 +46,14 @@ export default {
         url: `/eduservice/course/publishCourse/${courseId}`,
         method: 'patch'
       })
+    },
+
+    //获取课程列表, 带模糊查询, get请求带参数
+    getPageList(page, limit, searchObj) {
+      return request({
+        url: `/eduservice/course/pageQuery/${page}/${limit}`,
+        method: 'get',
+        params: searchObj
+      })
     }
 }
