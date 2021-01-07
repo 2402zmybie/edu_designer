@@ -35,7 +35,7 @@
                     <p>{{ video.title }}
                         <span class="acts">
                             <el-button type="text">编辑</el-button>
-                            <el-button type="text">删除</el-button>
+                            <el-button type="text" @click="removeVideo(video.id)">删除</el-button>
                         </span>
                     </p>
                 </li>
@@ -98,6 +98,7 @@ export default {
   data() {
     return {
       saveBtnDisabled: false, // 保存按钮是否禁用
+      saveVideoBtnDisabled:false,
       chapterVideoList:[],
       courseId: '',
       //新增章节弹框
@@ -131,6 +132,27 @@ export default {
 
   methods: {
     //-------------------------------------小节部分---------------------
+    //删除小节
+    removeVideo(id) {
+        this.$confirm('此操作删除小节, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+            }).then(() => {
+              video.deleteVideo(id)
+                .then(res => {
+                this.$message({
+                  type: 'success',
+                  message: '删除小节成功!'
+                });
+                //重新刷新数据
+                this.getChapterVideo()
+                }).catch(err => { 
+                  console.log(err)
+              })
+        })
+    },
+    //打开小节的弹框
     openVideo(id) {
         this.video = {}
         this.dialogVideoFormVisible = true

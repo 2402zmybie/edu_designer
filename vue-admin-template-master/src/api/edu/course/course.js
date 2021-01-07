@@ -31,4 +31,20 @@ export default {
         data: courseInfo
       })
     },
+
+    //课程确认信息显示
+    getCoursePublish(courseId){
+      return request({
+        url: `/eduservice/course/getCoursePublish/${courseId}`,
+        method: 'get'
+      })
+    },
+
+    //课程最终发布
+    publishCourse(courseId) {
+      return request({
+        url: `/eduservice/course/publishCourse/${courseId}`,
+        method: 'patch'
+      })
+    }
 }
