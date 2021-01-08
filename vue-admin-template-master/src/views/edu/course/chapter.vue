@@ -79,8 +79,27 @@
             <el-radio :label="false">默认</el-radio>
           </el-radio-group>
         </el-form-item>
+        <!-- 上传视频组件 -->
         <el-form-item label="上传视频">
-          <!-- TODO -->
+            <el-upload
+                   :on-success="handleVodUploadSuccess"
+                   :on-remove="handleVodRemove"
+                   :before-remove="beforeVodRemove"
+                   :on-exceed="handleUploadExceed"
+                   :file-list="fileList"
+                   :action="BASE_API+'/eduvod/video/uploadAlyVideo'"
+                   :limit="1"
+                   class="upload-demo">
+            <el-button size="small" type="primary">上传视频</el-button>
+            <el-tooltip placement="right-end">
+                <div slot="content">最大支持1G，<br>
+                    支持3GP、ASF、AVI、DAT、DV、FLV、F4V、<br>
+                    GIF、M2T、M4V、MJ2、MJPEG、MKV、MOV、MP4、<br>
+                    MPE、MPG、MPEG、MTS、OGG、QT、RM、RMVB、<br>
+                    SWF、TS、VOB、WMV、WEBM 等视频格式上传</div>
+                <i class="el-icon-question"/>
+            </el-tooltip>
+            </el-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -115,9 +134,12 @@ export default {
         sort: 0,
         free: 0,
         videoSourceId: '',
+        videoOriginalName: '',
         chapterId: '',
         courseId: ''
       },
+      fileList: [],//上传文件列表
+      BASE_API: process.env.BASE_API // 接口API地址
     }
   },
 
@@ -131,6 +153,37 @@ export default {
   },
 
   methods: {
+    //上传视频成功调用
+    handleVodUploadSuccess(response, file, fileList) {
+      console.log("视频id:" + response.data.videoId)
+      //上传视频id赋值
+      this.video.videoSourceId = response.data.videoId
+      //上传视频名称赋值
+      this.video.videoOriginalName = file.name
+    },
+    handleUploadExceed() {
+      this.$message.warning('想要重新上传视频，请先删除已上传的视频')
+    },
+    //点击x调用这个方法
+    beforeVodRemove(file,fileList) {
+      return this.$confirm(`确定移除 ${file.name}?`)
+    },
+    //点击x 然后点击确认调用
+    handleVodRemove() {
+      video.deleteAlyvod(this.video.videoSourceId).then(res => {
+        //提示
+        this.$message({
+          type: 'success',
+          message: '删除视频成功!'
+        })
+        this.fileList = []
+        //清空上传的视频id和名称
+        this.video.videoSourceId = ''
+        this.video.videoOriginalName = ''
+      })
+    },
+
+
     //-------------------------------------小节部分---------------------
     //删除小节
     removeVideo(id) {
@@ -147,7 +200,7 @@ export default {
                 });
                 //重新刷新数据
                 this.getChapterVideo()
-                }).catch(err => { 
+                }).catch(err => {
                   console.log(err)
               })
         })
@@ -237,7 +290,7 @@ export default {
               chapter.deleteChapter(id)
                 .then(res => {
                   this.getChapterVideo()
-                }).catch(err => { 
+                }).catch(err => {
                   console.log(err)
               })
         })
