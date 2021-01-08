@@ -98,7 +98,7 @@
     </el-table-column>
     <el-table-column label="价格" width="100" align="center" >
       <template slot-scope="scope">
-          {{scope.row.price === 0 ? '免费' : '¥' + scope.row.price.toFixed(2) }}
+          {{scope.row.price === 0 ? '免费' :'¥' + scope.row.price.toFixed(2) }}
       </template>
     </el-table-column>
     <el-table-column prop="buyCount" label="付费学员" width="100" align="center" >
@@ -115,7 +115,7 @@
         <router-link :to="'/edu/course/chapter/'+scope.row.id">
           <el-button type="text" size="mini" icon="el-icon-edit">编辑课程大纲</el-button>
         </router-link>
-        <el-button type="text" size="mini" icon="el-icon-delete">删除</el-button>
+        <el-button type="text" size="mini" icon="el-icon-delete" @click="removeDataById(scope.row.id)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -198,7 +198,25 @@ export default {
       this.searchObj = {}
       this.subSubjectList = [] // 二级分类列表
       this.fetchData()
-    }
+    },
+    removeDataById(id) {
+          this.$confirm('此操作将永久删除该课程, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+              course.deleteCourse(id)
+                .then(res => {
+                  this.fetchData()
+                }).catch(err => { 
+                  console.log(err)
+              })
+        })
+      }
   }
 }
 </script>
