@@ -8,4 +8,6 @@ module.exports = merge(prodEnv, {
   // BASE_API: '"http://localhost:8001"',
   //配置nginx的服务
   BASE_API: '"http://localhost:9001"',
+  //配置gateway
+  // BASE_API: '"http://localhost:8222"',
 })
